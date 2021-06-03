@@ -56,16 +56,29 @@
                     </div>
                     <!-- /.row -->
                     <!-- Main row -->
-                    <div class="row">
-                        <!-- query grafik -->
-
-
+                    <div class="row" >
                         <!-- LINE CHART -->
-                        <div class="card col-12">
+                        <div class="col-6">
+                        <div class="card">
                             <div class="card-header">
                                 <center>
-                                    <h4>Bandwidth(Gigabyte) </h4>
+                                    <h4>Bandwidth(<?= $satuan ?>) </h4>
                                 </center>
+                                <div style="margin-top:-38px" class="d-flex justify-content-end">
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Satuan
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="?satuan=Gb">Gb(Gigabyte)</a>
+                                            <a class="dropdown-item" href="?satuan=Mb">Mb(Megabyte)</a>
+                                            <a class="dropdown-item" href="?satuan=Kb">Kb(Kilobyte)</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div style="width:100%;">
@@ -74,13 +87,38 @@
                             </div>
                             <!-- /.card-body -->
                         </div>
+                        </div>
+                        <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <center>
+                                    <h4>User Online </h4>
+                                </center>
+                            </div>
+                            <div class="card-body">
+                                <div style="width:100%;">
+                                    <canvas id="uo"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        </div>
                         <!-- /.card -->
                     </div>
 
                     <!-- Mapbox -->
                     <div class="row">
                         <div class="card col-12">
-                            <div id='map' style='height: 500px; width: 1080px'></div>
+                        <div class="card-header">
+                                <center>
+                                    <h4>Lokasi Menara</h4>
+                                </center>
+                            </div>
+                            <div class="card-body">
+                                <div style="margin-left:-30px;padding:300px 10px 300px 10px;width:10%;">
+                                    <div id="map" style="margin-top:70px;width:99%;margin-bottom:10px"></div>
+                                </div>
+                            </div>
                             <script>
                                 // TO MAKE THE MAP APPEAR YOU MUST
                                 // ADD YOUR ACCESS TOKEN FROM
@@ -133,7 +171,13 @@
 </body>
 
 </html>
-
+<?php 
+if(!isset($_GET['satuan'])){
+    $jj ="Gb";
+}else{
+    $jj = $_GET['satuan'];
+}
+?>
 
 <script>
     var lineChartData = {
@@ -141,23 +185,24 @@
             'November', 'Desember'
         ],
         datasets: [{
-                label: 'Download(Gb)',
+                label: 'Download(<?= $jj ?>)',
                 borderColor: window.chartColors.red,
                 backgroundColor: window.chartColors.red,
                 fill: false,
-                data: [<?php echo formatBytes($download); ?>],
+                data: [<?= $download; ?>],
                 yAxisID: 'y-axis-1',
             },
             {
-                label: 'Upload(Gb)',
+                label: 'Upload(<?= $jj ?>)',
                 borderColor: window.chartColors.blue,
                 backgroundColor: window.chartColors.blue,
                 fill: false,
-                data: [<?php echo $download ?>],
+                data: [<?= $upload; ?>],
                 yAxisID: 'y-axis-1'
             }
         ]
     };
+
 
     window.onload = function() {
         var ctx = document.getElementById('canvas').getContext('2d');
@@ -187,6 +232,30 @@
                 }
             }
         });
+        var uo = document.getElementById('uo').getContext('2d');
+        var myChart = new Chart(uo, {
+                type: 'bar',
+                data: {
+                    labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober',
+                    'November', 'Desember'],
+                    datasets: [{
+                            label: 'User Online',
+                            data: [<?= $usero ?>],
+                            borderColor: window.chartColors.green,
+                            backgroundColor: window.chartColors.green,
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
     };
 </script>
 <!-- page script -->
