@@ -1,16 +1,74 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+date_default_timezone_set('Asia/Jakarta');
 
 class home extends CI_Controller
 {
     public function __construct()
     {
+
+
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->helper('formatBytes_helper');
+        $this->load->helper(['formatBytes_helper','dateIndo_helper']);
+        $this->load->model('data_wifi');
     }
+
+    public function index()
+    {
+
+        if (isset($_GET['satuan'])) {
+            if ($_GET['satuan'] == "Mb") {
+                $bagi = 1048576;
+                $title = "Megabyte";
+            } else if ($_GET['satuan'] == "Kb") {
+                $bagi = 1024;
+                $title = "Kilobyte";
+            }
+        } else {
+            $bagi = 1073741824;
+            $title = "Gigabyte";
+        }
+
+        $upload = '';
+        $download = '';
+        $bulan = '';
+        $tahun = date("Y");
+
+        $chartUsgae = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+
+        foreach ($chartUsgae as $h) {
+            $upload .= ",'" . $h['upload'] . "'";
+            $download .= ",'" . $h['download'] . "'";
+            $bulan .= ",'" .bulan($h['bulan']) . "'";
+        }
+        $datas['bulan'] = substr($bulan, 1);;
+        $datas['download'] = substr($download, 1);
+        $datas['upload'] = substr($upload, 1);
+        $datas['satuan'] = $title;
+
+        $onlineUsers = $this->db->query("SELECT count(username) as online_user FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%')  ")->row_array();
+
+        $datas['totalOnline'] = $onlineUsers;
+
+        $totalUsers = $this->db->query("SELECT count(radcheck.username) as total_user FROM radcheck WHERE Username LIKE '%jss%'")->row_array();
+
+        $datas['totalUser'] = $totalUsers;
+
+        $queryWifi = "SELECT COUNT(radacct.radacctid) as total, ip,nasipaddress,framedipaddress,nama_lokasi,rt,rw,alamat,status,id_lifemedia,lat,lng FROM data_wifi left join radacct on data_wifi.ip = radacct.nasipaddress where lat != 0 and lng != 0 GROUP BY ip";
+        $dataWifi = $this->db->query($queryWifi)->result_array();
+
+        $datas["wifi"] = $dataWifi;
+        //print_r($datas);
+        //die();
+        $this->load->view('vHome', $datas);
+       
+      
+    }
+
     public function login2()
     {
+
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }
@@ -27,10 +85,8 @@ class home extends CI_Controller
         // echo $_GET['satuan'];
         // echo $bagi;
         // die();
-
-        date_default_timezone_set('Asia/Jakarta');
         $tahun = date("Y");
-        $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+        $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') ")->result_array();
         $hihi2 = $this->db->query("SELECT count(username) as jumlah FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
         $upload = '';
         $download = '';
@@ -39,7 +95,7 @@ class home extends CI_Controller
             $upload .= ",'" . $h['upload'] . "'";
             $download .= ",'" . $h['download'] . "'";
         }
-        foreach ($hihi2 as $h2){
+        foreach ($hihi2 as $h2) {
             $user .= ",'" . $h2['jumlah'] . "'";
         }
 
@@ -47,8 +103,11 @@ class home extends CI_Controller
         $datas['usero'] = substr($user, 1);
         $datas['upload'] = substr($upload, 1);
         $datas['satuan'] = $title;
+        $datas['satuan'] = $title;
         $this->load->model('data_wifi');
         $datas["wifi"] = $this->data_wifi->datawifi();
+
+
 
         $this->load->view('_partials/head');
         $this->load->view('_partials/navbar');
