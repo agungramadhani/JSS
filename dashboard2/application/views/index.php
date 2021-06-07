@@ -137,8 +137,10 @@
                                     container: 'map', // container ID
                                     style: 'mapbox://styles/mapbox/streets-v11', // style URL
                                     center: [110.37003766882715, -7.795934747465391], // starting position [lng, lat]
-                                    zoom: 10 // starting zoom
+                                    zoom: 12 // starting zoom
                                 });
+                                map.scrollZoom.disable();
+                                map.addControl(new mapboxgl.NavigationControl());
                                 // Set options
                                 <?php
                                 if (!empty($wifi)) {
