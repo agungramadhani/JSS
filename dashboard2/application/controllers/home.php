@@ -14,31 +14,43 @@ class home extends CI_Controller
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }
-        if($_GET['satuan'] == "Mb") {
-            $bagi = 1048576;
-            $title = "Megabyte";
-        }else if($_GET['satuan'] == "Kb"){
-            $bagi = 1024;
-            $title = "Kilobyte";
-        }else {
-            $bagi = 1073741824;
-            $title = "Gigabyte";
+
+        $bagi = 1073741824;
+        $title = "Gigabyte";
+        $start = $this->input->post('tanggal1');
+        $end = $this->input->post('tanggal2');
+
+        if(isset($_GET['satuan'])){
+            if($_GET['satuan'] == "Mb") {
+                $bagi = 1048576;
+                $title = "Megabyte";
+            }else if($_GET['satuan'] == "Kb"){
+                $bagi = 1024;
+                $title = "Kilobyte";
+            }else {
+                $bagi = 1073741824;
+                $title = "Gigabyte";
+            }
         }
-        // echo $_GET['satuan'];
-        // echo $bagi;
-        // die();
 
         date_default_timezone_set('Asia/Jakarta');
         $tahun = date("Y");
-        $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
-        $hihi2 = $this->db->query("SELECT count(username) as jumlah FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+
+        if($start == "" || $end == ""){
+            $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+        }else{
+            $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE (acctstoptime BETWEEN '".$start."' AND '".$end."') AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+        }
+
         $upload = '';
         $download = '';
-        $user = '';
         foreach ($hihi1 as $h) {
             $upload .= ",'" . $h['upload'] . "'";
             $download .= ",'" . $h['download'] . "'";
         }
+
+        $hihi2 = $this->db->query("SELECT count(username) as jumlah FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+        $user = '';
         foreach ($hihi2 as $h2){
             $user .= ",'" . $h2['jumlah'] . "'";
         }

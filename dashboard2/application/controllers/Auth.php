@@ -20,6 +20,14 @@ class Auth extends CI_Controller
             $this->_login();
         }
     }
+    public function weekRange()
+    {
+        echo $_GET['date'];
+        $dt = strtotime('06/22/2009');
+    }
+    public function monthRange(){
+        echo $_GET['date'];
+    }
     private function _login()
     {
         $email = $this->input->post('username');

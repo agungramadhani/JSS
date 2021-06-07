@@ -58,15 +58,24 @@
                     <!-- Main row -->
                     <div class="row" >
                         <!-- LINE CHART -->
-                        <div class="col-6">
+                        <div class="col-lg-6 col-sm-12">
                         <div class="card">
                             <div class="card-header">
                                 <center>
                                     <h4>Bandwidth(<?= $satuan ?>) </h4>
                                 </center>
-                                <div style="margin-top:-38px" class="d-flex justify-content-end">
+                                <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                	<i class="fa fa-calendar"></i>&nbsp;
+                                	<span></span> <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div style="width:100%;">
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                                <div style="margin-top:10px"  class="d-flex justify-content-end">
                                     <div class="dropdown">
-                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                        <a class="btn-sm btn-secondary dropdown-toggle" href="#" role="button"
                                             id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
                                             Satuan
@@ -80,20 +89,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div style="width:100%;">
-                                    <canvas id="canvas"></canvas>
-                                </div>
-                            </div>
                             <!-- /.card-body -->
                         </div>
                         </div>
-                        <div class="col-6">
-                        <div class="card">
+                        <div class="col-lg-6 col-sm-12">
+                        <div class="card" style="padding-bottom:34px;">
                             <div class="card-header">
                                 <center>
                                     <h4>User Online </h4>
                                 </center>
+                                <div id="reportrange1" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                	<i class="fa fa-calendar"></i>&nbsp;
+                                	<span></span> <i class="fa fa-caret-down"></i>
+                                </div>
+                                <div id="cob"></div>
                             </div>
                             <div class="card-body">
                                 <div style="width:100%;">
@@ -171,91 +180,5 @@
 </body>
 
 </html>
-<?php 
-if(!isset($_GET['satuan'])){
-    $jj ="Gb";
-}else{
-    $jj = $_GET['satuan'];
-}
-?>
 
-<script>
-    var lineChartData = {
-        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober',
-            'November', 'Desember'
-        ],
-        datasets: [{
-                label: 'Download(<?= $jj ?>)',
-                borderColor: window.chartColors.red,
-                backgroundColor: window.chartColors.red,
-                fill: false,
-                data: [<?= $download; ?>],
-                yAxisID: 'y-axis-1',
-            },
-            {
-                label: 'Upload(<?= $jj ?>)',
-                borderColor: window.chartColors.blue,
-                backgroundColor: window.chartColors.blue,
-                fill: false,
-                data: [<?= $upload; ?>],
-                yAxisID: 'y-axis-1'
-            }
-        ]
-    };
-
-
-    window.onload = function() {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myLine = Chart.Line(ctx, {
-            data: lineChartData,
-            options: {
-                responsive: true,
-                hoverMode: 'index',
-                stacked: true,
-                scales: {
-                    yAxes: [{
-                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                        display: true,
-                        position: 'left',
-                        id: 'y-axis-1',
-                    }, {
-                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                        display: false,
-                        position: 'right',
-                        id: 'y-axis-2',
-
-                        // grid line settings
-                        gridLines: {
-                            drawOnChartArea: false, // only want the grid lines for one axis to show up
-                        },
-                    }],
-                }
-            }
-        });
-        var uo = document.getElementById('uo').getContext('2d');
-        var myChart = new Chart(uo, {
-                type: 'bar',
-                data: {
-                    labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober',
-                    'November', 'Desember'],
-                    datasets: [{
-                            label: 'User Online',
-                            data: [<?= $usero ?>],
-                            borderColor: window.chartColors.green,
-                            backgroundColor: window.chartColors.green,
-                            borderWidth: 1
-                        }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                    }
-                }
-            });
-    };
-</script>
 <!-- page script -->
