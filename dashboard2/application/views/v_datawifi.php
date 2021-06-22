@@ -67,12 +67,17 @@
                                         <th>Latitude</th>
                                         <th>Longitude</th>
                                         <th>Aksi</th>
+                                        <th>Grafik</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($wifi as $tyy) { ?>
+                                    foreach ($wifi as $tyy) { 
+                                        ?>
                                         <tr>
+                                        <td><div>
+                                                <canvas id="graph<?= $tyy->no ?>"  width="400" height="200"></canvas>
+                                            </div></td>
                                             <td><?php echo $tyy->no ?></td>
                                             <td><?php echo $tyy->nama_lokasi ?></td>
                                             <td><?php echo $tyy->kemantren ?></td>
@@ -93,8 +98,8 @@
                                                 <?php
                                                 echo anchor(base_url('home/hapus/' . $tyy->no), '<div class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></div>', 'onclick="javasciprt: return confirm(\'Anda Yakin Hapus ?\')"'); ?>
                                             </td>
-                        </div>
-                        </td>
+                                            
+                                            
                     <?php } ?>
                     </tr>
                     </tbody>
@@ -107,6 +112,7 @@
 
         </section>
         <!-- /.content -->
+        
     </div>
     <!-- /.content-wrapper -->
 

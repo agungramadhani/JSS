@@ -82,7 +82,7 @@ class home extends CI_Controller
         $this->load->view('_partials/sidebar');
         $this->load->view('v_datawifi', $querywifi);
         $this->load->view('_partials/footer');
-        $this->load->view('_partials/js');
+        $this->load->view('_partials/js', $querywifi);
     }
 
     public function input_wifi()
@@ -129,7 +129,7 @@ class home extends CI_Controller
         $this->load->view('_partials/sidebar');
         $this->load->view('online_user', $query);
         $this->load->view('_partials/footer');
-        $this->load->view('_partials/js');
+        $this->load->view('_partials/js', $query);
     }
 
     public function tambah_aksi()

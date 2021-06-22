@@ -6,6 +6,14 @@ class data_wifi extends CI_Model
         $querywifi = $this->db->query("SELECT * FROM data_wifi")->result();
         return $querywifi;
     }
+    public function graphdatawifi()
+    {
+        $querywifi = $this->db->query("SELECT count(radacct.radacctid), radacct.acctupdatetime ,data_wifi.nama_lokasi, 
+        data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip
+        FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
+        GROUP BY data_wifi.ip, DATE(radacct.acctupdatetime)")->result();
+        return $querywifi;
+    }
     public function tambah_data($data, $table)
     {
         $this->db->insert($table, $data);

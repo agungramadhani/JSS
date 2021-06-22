@@ -3,7 +3,7 @@ class online extends CI_Model
 {
     public function useronline()
     {
-        $query = $this->db->query("SELECT radacct.username, radacct.FramedIPAddress,
+        $query = $this->db->query("SELECT radacct.username, radacct.radacctid, radacct.FramedIPAddress,
         radacct.CallingStationId, radacct.AcctStartTime,
         radacct.AcctSessionTime, radacct.NASIPAddress, 
         radacct.CalledStationId, radacct.AcctSessionId, 

@@ -49,6 +49,7 @@
     	$("#example1").DataTable({
     		"responsive": true,
     		"autoWidth": false,
+            "paging": true,
     	});
     	$('#example2').DataTable({
     		"paging": true,
@@ -91,7 +92,7 @@ if(!isset($_GET['satuan'])){
                 borderColor: window.chartColors.red,
                 backgroundColor: window.chartColors.red,
                 fill: false,
-                data: [<?= $download; ?>],
+                data: [32,32,1,3,2,323,3,232,],
                 yAxisID: 'y-axis-1',
             },
             {
@@ -99,7 +100,7 @@ if(!isset($_GET['satuan'])){
                 borderColor: window.chartColors.blue,
                 backgroundColor: window.chartColors.blue,
                 fill: false,
-                data: [<?= $upload; ?>],
+                data: [10,20,102,30210,320,302,23],
                 yAxisID: 'y-axis-1'
             }
         ]
@@ -108,6 +109,70 @@ if(!isset($_GET['satuan'])){
 
     window.onload = function() {
 
+        <?php 
+            if(!empty($wifi)){ 
+                $no = 1;
+                foreach ($wifi as $grp) { 
+                    $querywifi = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
+                    sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
+                    data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
+                    FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
+                    where radacct.acctupdatetime >= NOW() + INTERVAL -90 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
+                    and radacct.nasipaddress = "'.$grp->ip.'"
+                    GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) ')->result_array();   
+                    
+                    $uploadqw = '';
+                    $downloadqw='';
+                    $hariqw='';
+
+                    foreach ($querywifi as $qw) {
+                        $uploadqw .= ",'" . $qw['upload'] . "'";
+                        $downloadqw .= ",'" . $qw['download'] . "'";
+                        $hariqw .= ",'" . $qw['hari'] . "'";
+                    }
+                    $upload = array($uploadqw);
+                    $download = array($downloadqw);
+                    $hari = array($hariqw);
+                    
+    
+                    ?>
+                var canvas<?= $grp->no?> = document.getElementById('graph<?= $grp->no ?>');
+
+                var data<?= $grp->no ?> = {
+                	labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                	datasets: [{
+                		label: 'Upload',
+                		data: [<?= $upload[0] ?>],
+                		backgroundColor: "rgba(153,255,51,0.4)"
+                	}, {
+                		label: 'Download',
+                		data: [<?= $download[0] ?>],
+                		backgroundColor: "rgba(255,153,0,0.4)"
+                	}]
+                };
+                var option<?= $grp->no ?> = {
+                	scales: {
+                		yAxes: [{
+                			stacked: true,
+                			gridLines: {
+                				display: true,
+                				color: "rgba(255,99,132,0.2)"
+                			}
+                		}],
+                		xAxes: [{
+                			gridLines: {
+                				display: true
+                			}
+                		}]
+                	}
+                };
+
+                var myBarChart<?= $grp->no ?> = Chart.Line(canvas<?= $grp->no ?>, {
+                	data: data<?= $grp->no ?>,
+                	options: option<?= $grp->no ?>
+                });
+           <?php }}    
+        ?>
         function rfChart(upload, download, label) {
             //amount = loadChart().amount;
             //timestamp = loadChart().timestamp;
