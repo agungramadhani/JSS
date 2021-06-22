@@ -17,6 +17,45 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
+                            <h3 class="card-title">Ranking WiFi</h3>
+                            <div class="card-tools">
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Lokasi</th>
+                                        <th>Upload</th>
+                                        <th>Download</th>
+                                        <th>Ip</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    foreach ($ranking as $rw) { 
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $no++ ?></td>
+                                            <td><?php echo $rw->nama_lokasi ?></td>
+                                            <td><?= $rw->upload ?></td>
+                                            <td><?= $rw->upload ?></td>
+                                            <td><?= $rw->ip ?> </td>
+                                            
+                                            
+                    <?php } ?>
+                    </tr>
+                    </tbody>
+                    </table>
+                    </div>
+                    
+                    <!-- /.card-body -->
+                </div>
+                <div class="card">
+                        <div class="card-header">
                             <h3 class="card-title">Data WiFi</h3>
                             <div class="card-tools">
                                 <a href="<?= base_url() ?>home/input_wifi">
@@ -46,7 +85,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
@@ -100,10 +138,10 @@
                                             </td>
                                             
                                             
-                    <?php } ?>
-                    </tr>
-                    </tbody>
-                    </table>
+                                    <?php } ?>
+                                        </tr>
+                                </tbody>
+                            </table>
                     </div>
                     <!-- /.card-body -->
                 </div>

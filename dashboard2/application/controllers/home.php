@@ -55,6 +55,7 @@ class home extends CI_Controller
             $user .= ",'" . $h2['jumlah'] . "'";
         }
 
+        
         $datas['download'] = substr($download, 1);
         $datas['usero'] = substr($user, 1);
         $datas['upload'] = substr($upload, 1);
@@ -74,6 +75,7 @@ class home extends CI_Controller
     {
         $this->load->model('data_wifi');
         $querywifi["wifi"] = $this->data_wifi->datawifi();
+        $querywifi["ranking"] = $this->data_wifi->ranking_wifi();
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }
