@@ -45,40 +45,39 @@
 <script src="<?= base_url() ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script>
-    $(function () {
-    	$("#example1").DataTable({
-    		"responsive": true,
-    		"autoWidth": false,
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $('#example2').DataTable({
             "paging": true,
-    	});
-    	$('#example2').DataTable({
-    		"paging": true,
-    		"lengthChange": false,
-    		"searching": false,
-    		"ordering": true,
-    		"info": true,
-    		"autoWidth": false,
-    		"responsive": true,
-    	});
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
     });
 
     function yakin() {
-    	return confirm("Anda Yakin Hapus?");
+        return confirm("Anda Yakin Hapus?");
     }
 </script>
-<?php 
-if(!isset($_GET['satuan'])){
-    $jj ="Gb";
-	$bagi = 1073741824;
-}else{
+<?php
+if (!isset($_GET['satuan'])) {
+    $jj = "Gb";
+    $bagi = 1073741824;
+} else {
     $jj = $_GET['satuan'];
-	if($jj == "Mb") {
-		$bagi = 1048576;
-	}else if($jj == "Kb"){
-		$bagi = 1024;
-	}else {
-		$bagi = 1073741824;
-	}
+    if ($jj == "Mb") {
+        $bagi = 1048576;
+    } else if ($jj == "Kb") {
+        $bagi = 1024;
+    } else {
+        $bagi = 1073741824;
+    }
 }
 ?>
 
@@ -92,7 +91,7 @@ if(!isset($_GET['satuan'])){
                 borderColor: window.chartColors.red,
                 backgroundColor: window.chartColors.red,
                 fill: false,
-                data: [32,32,1,3,2,323,3,232,],
+                data: [32, 32, 1, 3, 2, 323, 3, 232, ],
                 yAxisID: 'y-axis-1',
             },
             {
@@ -100,7 +99,7 @@ if(!isset($_GET['satuan'])){
                 borderColor: window.chartColors.blue,
                 backgroundColor: window.chartColors.blue,
                 fill: false,
-                data: [10,20,102,30210,320,302,23],
+                data: [10, 20, 102, 30210, 320, 302, 23],
                 yAxisID: 'y-axis-1'
             }
         ]
@@ -109,70 +108,6 @@ if(!isset($_GET['satuan'])){
 
     window.onload = function() {
 
-        <?php 
-            if(!empty($wifi)){ 
-                $no = 1;
-                foreach ($wifi as $grp) { 
-                    $querywifi = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
-                    sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
-                    data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
-                    FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
-                    where radacct.acctupdatetime >= NOW() + INTERVAL -90 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
-                    and radacct.nasipaddress = "'.$grp->ip.'"
-                    GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) ')->result_array();   
-                    
-                    $uploadqw = '';
-                    $downloadqw='';
-                    $hariqw='';
-
-                    foreach ($querywifi as $qw) {
-                        $uploadqw .= ",'" . $qw['upload'] . "'";
-                        $downloadqw .= ",'" . $qw['download'] . "'";
-                        $hariqw .= ",'" . $qw['hari'] . "'";
-                    }
-                    $upload = array($uploadqw);
-                    $download = array($downloadqw);
-                    $hari = array($hariqw);
-                    
-    
-                    ?>
-                var canvas<?= $grp->no?> = document.getElementById('graph<?= $grp->no ?>');
-
-                var data<?= $grp->no ?> = {
-                	labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
-                	datasets: [{
-                		label: 'Upload',
-                		data: [<?= $upload[0] ?>],
-                		backgroundColor: "rgba(153,255,51,0.4)"
-                	}, {
-                		label: 'Download',
-                		data: [<?= $download[0] ?>],
-                		backgroundColor: "rgba(255,153,0,0.4)"
-                	}]
-                };
-                var option<?= $grp->no ?> = {
-                	scales: {
-                		yAxes: [{
-                			stacked: true,
-                			gridLines: {
-                				display: true,
-                				color: "rgba(255,99,132,0.2)"
-                			}
-                		}],
-                		xAxes: [{
-                			gridLines: {
-                				display: true
-                			}
-                		}]
-                	}
-                };
-
-                var myBarChart<?= $grp->no ?> = Chart.Line(canvas<?= $grp->no ?>, {
-                	data: data<?= $grp->no ?>,
-                	options: option<?= $grp->no ?>
-                });
-           <?php }}    
-        ?>
         function rfChart(upload, download, label) {
             //amount = loadChart().amount;
             //timestamp = loadChart().timestamp;
@@ -186,14 +121,14 @@ if(!isset($_GET['satuan'])){
                         label: 'Upload',
                         data: upload, // json value received used in method
                         borderColor: window.chartColors.red,
-                		backgroundColor: window.chartColors.red,
-                fill: false,
+                        backgroundColor: window.chartColors.red,
+                        fill: false,
                     }, {
                         label: 'Download',
                         data: download,
                         borderColor: window.chartColors.blue,
-                		backgroundColor: window.chartColors.blue,
-                fill: false,
+                        backgroundColor: window.chartColors.blue,
+                        fill: false,
                     }, ]
                 }
             });
@@ -215,35 +150,37 @@ if(!isset($_GET['satuan'])){
                 'This Month': [moment().startOf('month'), moment().endOf('month')],
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
-        }, function (start, end) {
+        }, function(start, end) {
 
             let st = start.format('YYYY-MM-DD');
             let ed = end.format('YYYY-MM-DD');
             let url = `<?= base_url() ?>api/chart?start_date=${st}&end_date=${ed}&bagi=<?= $bagi ?>`;
-			$('#reportrange span').html(st + ' - ' + ed);
-			console.log(st,ed)
+            $('#reportrange span').html(st + ' - ' + ed);
+            console.log(st, ed)
             updateValueForUrl(url);
         });
 
         function updateValueForUrl(url) {
-			let bulanindo = ['','Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember' ];
-			let upload = [],download = [],label = [];
+            let bulanindo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            let upload = [],
+                download = [],
+                label = [];
             $.getJSON(url, function(chart) {
 
                 for (i in chart.data) {
-					upload.push(chart.data[i]["upload"]);
-					download.push(chart.data[i]["download"]);
+                    upload.push(chart.data[i]["upload"]);
+                    download.push(chart.data[i]["download"]);
 
-                    if(chart.data[i]["bulan"] != null){
+                    if (chart.data[i]["bulan"] != null) {
                         var labell = chart.data[i]["bulan"];
-					    label.push(bulanindo[labell]);
-                    }else{
+                        label.push(bulanindo[labell]);
+                    } else {
                         label.push(chart.data[i]["hari"]);
-                    }				
-				}
-				console.log(chart.data, chart.test);
-				rfChart(upload, download, label);
-				
+                    }
+                }
+                console.log(chart.data, chart.test);
+                rfChart(upload, download, label);
+
             });
         }
 
@@ -260,8 +197,8 @@ if(!isset($_GET['satuan'])){
                         label: 'User Online',
                         data: useronline, // json value received used in method
                         borderColor: window.chartColors.green,
-                		backgroundColor: window.chartColors.green,
-                    },]
+                        backgroundColor: window.chartColors.green,
+                    }, ]
                 }
             });
         }
@@ -279,36 +216,103 @@ if(!isset($_GET['satuan'])){
                 'This Month': [moment().startOf('month'), moment().endOf('month')],
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
-        }, function (start, end) {
+        }, function(start, end) {
 
             let st = start.format('YYYY-MM-DD');
             let ed = end.format('YYYY-MM-DD');
             let url = `<?= base_url() ?>api/chart/uo?start_date=${st}&end_date=${ed}&bagi=<?= $bagi ?>`;
-			$('#reportrange1 span').html(st + ' - ' + ed);
-			console.log(st,ed)
+            $('#reportrange1 span').html(st + ' - ' + ed);
+            console.log(st, ed)
             updateValueForUrl1(url);
         });
 
         function updateValueForUrl1(url) {
-			let bulanindo = ['','Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember' ];
-			let useronline = [],label = [];
+            let bulanindo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            let useronline = [],
+                label = [];
             $.getJSON(url, function(chart) {
 
                 for (i in chart.data) {
-					useronline.push(chart.data[i]["jumlah"]);
+                    useronline.push(chart.data[i]["jumlah"]);
 
-                    if(chart.data[i]["bulan"] != null){
+                    if (chart.data[i]["bulan"] != null) {
                         var labell = chart.data[i]["bulan"];
-					    label.push(bulanindo[labell]);
-                    }else{
+                        label.push(bulanindo[labell]);
+                    } else {
                         label.push(chart.data[i]["hari"]);
-                    }				
-				}
-				console.log(chart.data, chart.test);
-				uoChart(useronline, label);
-				
+                    }
+                }
+                console.log(chart.data, chart.test);
+                uoChart(useronline, label);
+
             });
         }
+
+        <?php
+        if (!empty($wifi)) {
+            $no = 1;
+            foreach ($wifi as $grp) {
+                $querywifi = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
+                    sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
+                    data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
+                    FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
+                    where radacct.acctupdatetime >= NOW() + INTERVAL -90 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
+                    and radacct.nasipaddress = "' . $grp->ip . '"
+                    GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) ')->result_array();
+
+                $uploadqw = '';
+                $downloadqw = '';
+                $hariqw = '';
+
+                foreach ($querywifi as $qw) {
+                    $uploadqw .= ",'" . $qw['upload'] . "'";
+                    $downloadqw .= ",'" . $qw['download'] . "'";
+                    $hariqw .= ",'" . $qw['hari'] . "'";
+                }
+                $upload = array($uploadqw);
+                $download = array($downloadqw);
+                $hari = array($hariqw);
+
+
+        ?>
+                var canvas<?= $grp->no ?> = document.getElementById('graph<?= $grp->no ?>');
+
+                var data<?= $grp->no ?> = {
+                    labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                    datasets: [{
+                        label: 'Upload',
+                        data: [<?= $upload[0] ?>],
+                        backgroundColor: "rgba(153,255,51,0.4)"
+                    }, {
+                        label: 'Download',
+                        data: [<?= $download[0] ?>],
+                        backgroundColor: "rgba(255,153,0,0.4)"
+                    }]
+                };
+                var option<?= $grp->no ?> = {
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            gridLines: {
+                                display: true,
+                                color: "rgba(255,99,132,0.2)"
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: true
+                            }
+                        }]
+                    }
+                };
+
+                var myBarChart<?= $grp->no ?> = Chart.Line(canvas<?= $grp->no ?>, {
+                    data: data<?= $grp->no ?>,
+                    options: option<?= $grp->no ?>
+                });
+        <?php }
+        }
+        ?>
 
     }
 </script>

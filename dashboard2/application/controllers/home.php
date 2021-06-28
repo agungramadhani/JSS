@@ -55,7 +55,6 @@ class home extends CI_Controller
             $user .= ",'" . $h2['jumlah'] . "'";
         }
 
-
         $datas['download'] = substr($download, 1);
         $datas['usero'] = substr($user, 1);
         $datas['upload'] = substr($upload, 1);
