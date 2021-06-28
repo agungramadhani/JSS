@@ -99,11 +99,6 @@
                                         <th>ID Lifemedia</th>
                                         <th>IP</th>
                                         <th>Hasil Survey</th>
-                                        <th>Alamat</th>
-                                        <th>PIC</th>
-                                        <th>Foto Stiker</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -122,11 +117,6 @@
                                             <td><?php echo $tyy->id_lifemedia ?></td>
                                             <td><?php echo $tyy->ip ?></td>
                                             <td><?php echo $tyy->hasil_survey ?></td>
-                                            <td><?php echo $tyy->alamat ?></td>
-                                            <td><?php echo $tyy->pic ?></td>
-                                            <td><?php echo $tyy->foto_stiker ?></td>
-                                            <td><?php echo $tyy->lat ?></td>
-                                            <td><?php echo $tyy->lng ?></td>
                                             <td><a href="<?php echo base_url() . 'home/v_editwifi/' . $tyy->no ?>"><button class="btn btn-primary btn-sm">
                                                         <i class="fa fa-edit"></i></button></a>
 
