@@ -36,25 +36,25 @@
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($ranking as $rw) { 
-                                        ?>
+                                    foreach ($ranking as $rw) {
+                                    ?>
                                         <tr>
                                             <td><?php echo $no++ ?></td>
                                             <td><?php echo $rw->nama_lokasi ?></td>
                                             <td><?= $rw->upload ?></td>
                                             <td><?= $rw->upload ?></td>
                                             <td><?= $rw->ip ?> </td>
-                                            
-                                            
-                    <?php } ?>
-                    </tr>
-                    </tbody>
-                    </table>
+
+
+                                        <?php } ?>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- /.card-body -->
                     </div>
-                    
-                    <!-- /.card-body -->
-                </div>
-                <div class="card">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Data WiFi</h3>
                             <div class="card-tools">
@@ -105,17 +105,13 @@
                                         <th>Latitude</th>
                                         <th>Longitude</th>
                                         <th>Aksi</th>
-                                        <th>Grafik</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($wifi as $tyy) { 
-                                        ?>
+                                    foreach ($wifi as $tyy) {
+                                    ?>
                                         <tr>
-                                        <td><div>
-                                                <canvas id="graph<?= $tyy->no ?>"  width="400" height="200"></canvas>
-                                            </div></td>
                                             <td><?php echo $tyy->no ?></td>
                                             <td><?php echo $tyy->nama_lokasi ?></td>
                                             <td><?php echo $tyy->kemantren ?></td>
@@ -133,32 +129,35 @@
                                             <td><?php echo $tyy->lng ?></td>
                                             <td><a href="<?php echo base_url() . 'home/v_editwifi/' . $tyy->no ?>"><button class="btn btn-primary btn-sm">
                                                         <i class="fa fa-edit"></i></button></a>
+
                                                 <?php
                                                 echo anchor(base_url('home/hapus/' . $tyy->no), '<div class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></div>', 'onclick="javasciprt: return confirm(\'Anda Yakin Hapus ?\')"'); ?>
+
+                                                <?php echo anchor(base_url('home/detaildata_wifi/' . $tyy->no), '<div class="btn btn-primary btn-sm"><i class="fa fa-search-plus"></i></div></button></a>'); ?>
                                             </td>
-                                            
-                                            
-                                    <?php } ?>
+
+
+                                        <?php } ?>
                                         </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card-body -->
                 </div>
+                <!-- /.container-fluid -->
+
+            </section>
+            <!-- /.content -->
+
         </div>
-        <!-- /.container-fluid -->
+        <!-- /.content-wrapper -->
 
-        </section>
-        <!-- /.content -->
-        
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./_partials/wrapper -->
 

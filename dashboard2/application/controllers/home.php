@@ -20,14 +20,14 @@ class home extends CI_Controller
         $start = $this->input->post('tanggal1');
         $end = $this->input->post('tanggal2');
 
-        if(isset($_GET['satuan'])){
-            if($_GET['satuan'] == "Mb") {
+        if (isset($_GET['satuan'])) {
+            if ($_GET['satuan'] == "Mb") {
                 $bagi = 1048576;
                 $title = "Megabyte";
-            }else if($_GET['satuan'] == "Kb"){
+            } else if ($_GET['satuan'] == "Kb") {
                 $bagi = 1024;
                 $title = "Kilobyte";
-            }else {
+            } else {
                 $bagi = 1073741824;
                 $title = "Gigabyte";
             }
@@ -36,10 +36,10 @@ class home extends CI_Controller
         date_default_timezone_set('Asia/Jakarta');
         $tahun = date("Y");
 
-        if($start == "" || $end == ""){
+        if ($start == "" || $end == "") {
             $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
-        }else{
-            $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE (acctstoptime BETWEEN '".$start."' AND '".$end."') AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+        } else {
+            $hihi1 = $this->db->query("SELECT SUM(acctinputoctets)/$bagi as 'upload' , SUM(acctoutputoctets)/$bagi as 'download' ,month(acctstoptime) as bulan FROM `radacct` WHERE (acctstoptime BETWEEN '" . $start . "' AND '" . $end . "') AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
         }
 
         $upload = '';
@@ -51,11 +51,11 @@ class home extends CI_Controller
 
         $hihi2 = $this->db->query("SELECT count(username) as jumlah FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
         $user = '';
-        foreach ($hihi2 as $h2){
+        foreach ($hihi2 as $h2) {
             $user .= ",'" . $h2['jumlah'] . "'";
         }
 
-        
+
         $datas['download'] = substr($download, 1);
         $datas['usero'] = substr($user, 1);
         $datas['upload'] = substr($upload, 1);
@@ -83,6 +83,22 @@ class home extends CI_Controller
         $this->load->view('_partials/navbar');
         $this->load->view('_partials/sidebar');
         $this->load->view('v_datawifi', $querywifi);
+        $this->load->view('_partials/footer');
+        $this->load->view('_partials/js', $querywifi);
+    }
+
+    public function detaildata_wifi($no)
+    {
+        $this->load->model('data_wifi');
+        $detail = $this->data_wifi->detail($no);
+        $querywifi["ww"] = $detail;
+        if ($this->session->userdata('masuk') == null) {
+            redirect('Auth');
+        }
+        $this->load->view('_partials/head');
+        $this->load->view('_partials/navbar');
+        $this->load->view('_partials/sidebar');
+        $this->load->view('v_detaildatawifi', $querywifi);
         $this->load->view('_partials/footer');
         $this->load->view('_partials/js', $querywifi);
     }

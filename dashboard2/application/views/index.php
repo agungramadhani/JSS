@@ -56,61 +56,59 @@
                     </div>
                     <!-- /.row -->
                     <!-- Main row -->
-                    <div class="row" >
+                    <div class="row">
                         <!-- LINE CHART -->
                         <div class="col-lg-6 col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <center>
-                                    <h4>Bandwidth(<?= $satuan ?>) </h4>
-                                </center>
-                                <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                	<i class="fa fa-calendar"></i>&nbsp;
-                                	<span></span> <i class="fa fa-caret-down"></i>
+                            <div class="card">
+                                <div class="card-header">
+                                    <center>
+                                        <h4>Bandwidth(<?= $satuan ?>) </h4>
+                                    </center>
+                                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                        <i class="fa fa-calendar"></i>&nbsp;
+                                        <span></span> <i class="fa fa-caret-down"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <div style="width:100%;">
-                                    <canvas id="canvas"></canvas>
-                                </div>
-                                <div style="margin-top:10px"  class="d-flex justify-content-end">
-                                    <div class="dropdown">
-                                        <a class="btn-sm btn-secondary dropdown-toggle" href="#" role="button"
-                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Satuan
-                                        </a>
+                                <div class="card-body">
+                                    <div style="width:100%;">
+                                        <canvas id="canvas"></canvas>
+                                    </div>
+                                    <div style="margin-top:10px" class="d-flex justify-content-end">
+                                        <div class="dropdown">
+                                            <a class="btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Satuan
+                                            </a>
 
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="?satuan=Gb">Gb(Gigabyte)</a>
-                                            <a class="dropdown-item" href="?satuan=Mb">Mb(Megabyte)</a>
-                                            <a class="dropdown-item" href="?satuan=Kb">Kb(Kilobyte)</a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="?satuan=Gb">Gb(Gigabyte)</a>
+                                                <a class="dropdown-item" href="?satuan=Mb">Mb(Megabyte)</a>
+                                                <a class="dropdown-item" href="?satuan=Kb">Kb(Kilobyte)</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card-body -->
-                        </div>
                         </div>
                         <div class="col-lg-6 col-sm-12">
-                        <div class="card" style="padding-bottom:34px;">
-                            <div class="card-header">
-                                <center>
-                                    <h4>User Online </h4>
-                                </center>
-                                <div id="reportrange1" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                	<i class="fa fa-calendar"></i>&nbsp;
-                                	<span></span> <i class="fa fa-caret-down"></i>
+                            <div class="card" style="padding-bottom:34px;">
+                                <div class="card-header">
+                                    <center>
+                                        <h4>User Online </h4>
+                                    </center>
+                                    <div id="reportrange1" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                        <i class="fa fa-calendar"></i>&nbsp;
+                                        <span></span> <i class="fa fa-caret-down"></i>
+                                    </div>
+                                    <div id="cob"></div>
                                 </div>
-                                <div id="cob"></div>
-                            </div>
-                            <div class="card-body">
-                                <div style="width:100%;">
-                                    <canvas id="uo"></canvas>
+                                <div class="card-body">
+                                    <div style="width:100%;">
+                                        <canvas id="uo"></canvas>
+                                    </div>
                                 </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card-body -->
-                        </div>
                         </div>
                         <!-- /.card -->
                     </div>
@@ -118,7 +116,7 @@
                     <!-- Mapbox -->
                     <div class="row">
                         <div class="card col-12">
-                        <div class="card-header">
+                            <div class="card-header">
                                 <center>
                                     <h4>Lokasi Menara</h4>
                                 </center>
