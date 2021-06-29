@@ -247,74 +247,69 @@ if (!isset($_GET['satuan'])) {
 
             });
         }
-
-        <?php
-        if (!empty($wifi)) {
-            foreach ($wifi as $ww) {
-                $querywifi = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
+    }
+</script>
+<script>
+    <?php
+    $querywifi = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
                     sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
                     data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
                     FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
-                    where radacct.acctupdatetime >= NOW() + INTERVAL -90 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
-                    and radacct.nasipaddress = "' . $ww->ip . '"
+                    where radacct.acctupdatetime >= NOW() + INTERVAL -100 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
+                    and radacct.nasipaddress = "' . $no_wifi->ip . '"
                     GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) ')->result_array();
 
-                $uploadqw = '';
-                $downloadqw = '';
-                $hariqw = '';
+    $uploadqw = '';
+    $downloadqw = '';
+    $hariqw = '';
 
-                foreach ($querywifi as $qw) {
-                    $uploadqw .= ",'" . $qw['upload'] . "'";
-                    $downloadqw .= ",'" . $qw['download'] . "'";
-                    $hariqw .= ",'" . $qw['hari'] . "'";
-                }
-                $upload = array($uploadqw);
-                $download = array($downloadqw);
-                $hari = array($hariqw);
-
-
-        ?>
-                var canvas<?= $ww->no ?> = document.getElementById('graph<?= $ww->no ?>');
-                var data<?= $ww->no ?> = {
-                    labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
-                    datasets: [{
-                        label: 'Upload (Gb)',
-                        data: [<?= $upload[0] ?>],
-                        borderColor: "rgb(255, 0, 0)",
-                        backgroundColor: "rgb(255, 0, 0)",
-
-                    }, {
-                        label: 'Download (Gb)',
-                        data: [<?= $download[0] ?>],
-                        borderColor: "rgb(0, 0, 255)",
-                        backgroundColor: "rgb(0, 0, 255)",
-                    }]
-                };
-                var option<?= $ww->no ?> = {
-                    scales: {
-                        yAxes: [{
-                            stacked: true,
-                            gridLines: {
-                                display: true,
-                                color: "rgba(255,99,132,0.2)"
-                            }
-                        }],
-                        xAxes: [{
-                            stacked: true,
-                            gridLines: {
-                                display: true
-                            }
-                        }]
-                    }
-                };
-
-                var myBarChart<?= $ww->no ?> = Chart.Line(canvas<?= $ww->no ?>, {
-                    data: data<?= $ww->no ?>,
-                    options: option<?= $ww->no ?>
-                });
-        <?php }
-        }
-        ?>
-
+    foreach ($querywifi as $qw) {
+        $uploadqw .= ",'" . $qw['upload'] . "'";
+        $downloadqw .= ",'" . $qw['download'] . "'";
+        $hariqw .= ",'" . $qw['hari'] . "'";
     }
+    $upload = array($uploadqw);
+    $download = array($downloadqw);
+    $hari = array($hariqw);
+
+
+    ?>
+    var canvas<?= $no_wifi->no ?> = document.getElementById('graph<?= $no_wifi->no ?>').getContext('2d');;
+    var data<?= $no_wifi->no ?> = {
+        labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+        datasets: [{
+            label: 'Upload (Gb)',
+            data: [<?= $upload[0] ?>],
+            borderColor: "rgb(114, 125, 247)",
+            backgroundColor: "rgb(114, 125, 247)",
+
+        }, {
+            label: 'Download (Gb)',
+            data: [<?= $download[0] ?>],
+            borderColor: "rgb(247, 114, 114)",
+            backgroundColor: "rgb(247, 114, 114)",
+        }]
+    };
+    var option<?= $no_wifi->no ?> = {
+        scales: {
+            yAxes: [{
+                stacked: true,
+                gridLines: {
+                    display: true,
+                    color: "rgba(255,99,132,0.2)"
+                }
+            }],
+            xAxes: [{
+                stacked: true,
+                gridLines: {
+                    display: true
+                }
+            }]
+        }
+    };
+
+    var myBarChart<?= $no_wifi->no ?> = new Chart(canvas<?= $no_wifi->no ?>, {
+        type: 'bar',
+        data: data<?= $no_wifi->no ?>,
+    });
 </script>

@@ -16,16 +16,20 @@
                         <!-- <h1 class="h3 mb-0 text-gray-800">&nbsp;Dashboard</h1> -->
                     </div>
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Grafik</h3>
+                        <div class="card-title">
+                            <center>
+                                <h3>Grafik</h3>
+                            </center>
                         </div>
-
-                        <!-- /.card-header -->
-                        <canvas id="graph<?php echo $ww->no ?>" width="400" height="200"></canvas>
+                        <div class="card-body">
+                            <div>
+                                <canvas id="graph<?php echo $no_wifi->no ?>" width="400" height="200"></canvas>
+                            </div>
+                        </div>
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data WiFi</h3>
+                            <h3 class="card-title">Detail Data WiFi <?= $no_wifi->nama_lokasi ?></h3>
                             <div class="card-tools">
                                 <a href="<?= base_url() ?>home/input_wifi">
                                     <button type="button" class="btn btn-success btn-sm">
@@ -59,6 +63,7 @@
                                 <thead>
 
                                     <tr>
+                                        <th>Hasil Survey</th>
                                         <th>Alamat</th>
                                         <th>PIC</th>
                                         <th>Foto Stiker</th>
@@ -66,13 +71,25 @@
                                         <th>Longitude</th>
                                     </tr>
                                 </thead>
+                                <?php
+                                // foreach ($no_wifi as $tyy) {
+                                // $no_wifi = $this->db->query("SELECT hasil_survey,alamat,pic,foto_stiker,lat,lng FROM data_wifi")->row();
+                                ?>
                                 <tbody>
                                     <tr>
-                                        <td><?php echo $ww->alamat ?></td>
-                                        <td><?php echo $ww->pic ?></td>
-                                        <td><?php echo $ww->foto_stiker ?></td>
-                                        <td><?php echo $ww->lat ?></td>
-                                        <td><?php echo $ww->lng ?></td>
+                                        <!-- <td style="display:none">
+                                            <div style="display:none">
+                                                <canvas style="display: none;" id="graph<?php echo $no_wifi->no ?>" width="400" height="200"></canvas>
+                                            </div>
+                                        </td> -->
+                                        <td><?php echo $no_wifi->hasil_survey ?></td>
+                                        <td><?php echo $no_wifi->alamat ?></td>
+                                        <td><?php echo $no_wifi->pic ?></td>
+                                        <td><?php echo $no_wifi->foto_stiker ?></td>
+                                        <td><?php echo $no_wifi->lat ?></td>
+                                        <td><?php echo $no_wifi->lng ?></td>
+                                        <?php // } 
+                                        ?>
                                     </tr>
                                 </tbody>
                             </table>
@@ -99,7 +116,11 @@
 </body>
 
 </html>
-<div>
-
-
-</div>
+<script>
+    <?php
+    function ($no) {
+        $query = $this->db->get_where('data_wifi', array('no' => $no))->row();
+        return $query;
+    }
+    ?>
+</script>

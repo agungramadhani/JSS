@@ -87,19 +87,19 @@ class home extends CI_Controller
         $this->load->view('_partials/js', $querywifi);
     }
 
-    public function detaildata_wifi($no)
+    public function detaildata_wifi($no = "")
     {
         $this->load->model('data_wifi');
         $querywifi["wifi"] = $this->data_wifi->datawifi();
         $detail = $this->data_wifi->detail($no);
-        $querywifi2["ww"] = $detail;
+        $querywifi["no_wifi"] = $detail;
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }
         $this->load->view('_partials/head');
         $this->load->view('_partials/navbar');
         $this->load->view('_partials/sidebar');
-        $this->load->view('v_detaildatawifi', $querywifi2);
+        $this->load->view('v_detaildatawifi', $querywifi);
         $this->load->view('_partials/footer');
         $this->load->view('_partials/js', $querywifi);
     }
