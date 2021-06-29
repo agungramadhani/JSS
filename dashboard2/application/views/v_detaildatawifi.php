@@ -18,17 +18,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Grafik</h3>
-                            <div class="card-tools">
-                            </div>
                         </div>
+
                         <!-- /.card-header -->
-                        <tbody>
-                            <td>
-                                <div>
-                                    <canvas id="graph<?php echo $ww->no ?>" width="400" height="200"></canvas>
-                                </div> <!-- /.card-body -->
-                            </td>
-                        </tbody>
+                        <canvas id="graph<?php echo $ww->no ?>" width="400" height="200"></canvas>
                     </div>
                     <div class="card">
                         <div class="card-header">

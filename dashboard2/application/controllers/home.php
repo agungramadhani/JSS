@@ -49,7 +49,8 @@ class home extends CI_Controller
             $download .= ",'" . $h['download'] . "'";
         }
 
-        $hihi2 = $this->db->query("SELECT count(username) as jumlah FROM `radacct` WHERE  year(acctstoptime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+        $hihi2 = $this->db->query("SELECT count(username) as jumlah FROM `radacct` WHERE  year(radacct.AcctStopTime) = '" . $tahun . "' AND (radacct.Username LIKE '%jss%') GROUP BY month(acctstoptime)")->result_array();
+
         $user = '';
         foreach ($hihi2 as $h2) {
             $user .= ",'" . $h2['jumlah'] . "'";
@@ -89,15 +90,16 @@ class home extends CI_Controller
     public function detaildata_wifi($no)
     {
         $this->load->model('data_wifi');
+        $querywifi["wifi"] = $this->data_wifi->datawifi();
         $detail = $this->data_wifi->detail($no);
-        $querywifi["ww"] = $detail;
+        $querywifi2["ww"] = $detail;
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }
         $this->load->view('_partials/head');
         $this->load->view('_partials/navbar');
         $this->load->view('_partials/sidebar');
-        $this->load->view('v_detaildatawifi', $querywifi);
+        $this->load->view('v_detaildatawifi', $querywifi2);
         $this->load->view('_partials/footer');
         $this->load->view('_partials/js', $querywifi);
     }

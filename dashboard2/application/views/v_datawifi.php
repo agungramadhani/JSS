@@ -41,8 +41,8 @@
                                         <tr>
                                             <td><?php echo $no++ ?></td>
                                             <td><?php echo $rw->nama_lokasi ?></td>
-                                            <td><?= $rw->upload ?></td>
-                                            <td><?= $rw->upload ?></td>
+                                            <td><?= formatBytes($rw->upload, 2) ?></td>
+                                            <td><?= formatBytes($rw->download, 2) ?></td>
                                             <td><?= $rw->ip ?> </td>
 
 

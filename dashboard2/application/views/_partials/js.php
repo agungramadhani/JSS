@@ -250,14 +250,13 @@ if (!isset($_GET['satuan'])) {
 
         <?php
         if (!empty($wifi)) {
-            $no = 1;
-            foreach ($wifi as $grp) {
+            foreach ($wifi as $ww) {
                 $querywifi = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
                     sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
                     data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
                     FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
                     where radacct.acctupdatetime >= NOW() + INTERVAL -90 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
-                    and radacct.nasipaddress = "' . $grp->ip . '"
+                    and radacct.nasipaddress = "' . $ww->ip . '"
                     GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) ')->result_array();
 
                 $uploadqw = '';
@@ -275,21 +274,23 @@ if (!isset($_GET['satuan'])) {
 
 
         ?>
-                var canvas<?= $grp->no ?> = document.getElementById('graph<?= $grp->no ?>');
-
-                var data<?= $grp->no ?> = {
+                var canvas<?= $ww->no ?> = document.getElementById('graph<?= $ww->no ?>');
+                var data<?= $ww->no ?> = {
                     labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
                     datasets: [{
-                        label: 'Upload',
+                        label: 'Upload (Gb)',
                         data: [<?= $upload[0] ?>],
-                        backgroundColor: "rgba(153,255,51,0.4)"
+                        borderColor: "rgb(255, 0, 0)",
+                        backgroundColor: "rgb(255, 0, 0)",
+
                     }, {
-                        label: 'Download',
+                        label: 'Download (Gb)',
                         data: [<?= $download[0] ?>],
-                        backgroundColor: "rgba(255,153,0,0.4)"
+                        borderColor: "rgb(0, 0, 255)",
+                        backgroundColor: "rgb(0, 0, 255)",
                     }]
                 };
-                var option<?= $grp->no ?> = {
+                var option<?= $ww->no ?> = {
                     scales: {
                         yAxes: [{
                             stacked: true,
@@ -299,6 +300,7 @@ if (!isset($_GET['satuan'])) {
                             }
                         }],
                         xAxes: [{
+                            stacked: true,
                             gridLines: {
                                 display: true
                             }
@@ -306,9 +308,9 @@ if (!isset($_GET['satuan'])) {
                     }
                 };
 
-                var myBarChart<?= $grp->no ?> = Chart.Line(canvas<?= $grp->no ?>, {
-                    data: data<?= $grp->no ?>,
-                    options: option<?= $grp->no ?>
+                var myBarChart<?= $ww->no ?> = Chart.Line(canvas<?= $ww->no ?>, {
+                    data: data<?= $ww->no ?>,
+                    options: option<?= $ww->no ?>
                 });
         <?php }
         }

@@ -7,5 +7,5 @@ function formatBytes($bytes, $decimal = null)
         $bytes /= 1024;
         $i++;
     }
-    return round($bytes, $decimal);
+    return round($bytes, $decimal) . " " . $satuan[$i];
 }

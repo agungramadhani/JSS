@@ -23,7 +23,7 @@
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <?php
-                                    $query = $this->db->query("SELECT radcheck.username FROM radcheck WHERE Username LIKE '%jss%'")->num_rows();
+                                    $query = $this->db->query("SELECT * FROM radacct WHERE (radacct.AcctStopTime) AND (radacct.Username LIKE '%jss%')")->num_rows();
                                     ?>
                                     <h3><?php echo $query; ?></h3>
                                     <p>Total User</p>
@@ -40,7 +40,7 @@
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <?php
-                                    $klo = $this->db->query("SELECT * FROM radacct WHERE (radacct.AcctStopTime) AND (radacct.Username LIKE '%jss%')")->num_rows();
+                                    $klo = $this->db->query("SELECT radcheck.username FROM radcheck WHERE Username LIKE '%jss%'")->num_rows();
                                     ?>
                                     <h3><?php echo $klo; ?></h3>
                                     <p>Online Users</p>
@@ -49,7 +49,7 @@
                                 <div class="icon">
                                     <i class="ion ion-person"></i>
                                 </div>
-                                <a href="online-user.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
 
