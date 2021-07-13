@@ -43,7 +43,7 @@
                                             <td><?php echo $rw->nama_lokasi ?></td>
                                             <td><?= formatBytes($rw->upload, 2) ?></td>
                                             <td><?= formatBytes($rw->download, 2) ?></td>
-                                            <td><?php echo $rw->ip ?> </td>
+                                            <td><?= $rw->ip ?> </td>
 
 
                                         <?php } ?>
