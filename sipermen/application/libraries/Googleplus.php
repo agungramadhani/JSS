@@ -16,7 +16,7 @@ class Googleplus {
 		$this->client->setApplicationName('Sipermen');
 		$this->client->setClientId('203342430391-cuneblbt0110fjrtbe1brpmups7ogs7u.apps.googleusercontent.com');
 		$this->client->setClientSecret('byMGg7Lpa-fSdJWhDR2R0nlq');
-		$this->client->setRedirectUri('http://localhost/ci3/welcome/callback');
+		$this->client->setRedirectUri('http://localhost/JSS/sipermen/welcome/callback');
 		$this->client->setAccessType('offline');
 		// Using "consent" ensures that your application always receives a refresh token.
 		// If you are not using offline access, you can omit this.

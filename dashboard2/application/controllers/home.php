@@ -71,11 +71,36 @@ class home extends CI_Controller
         $this->load->view('_partials/js');
     }
 
-    public function data_wifi()
+    public function data_wifi($hari = "")
     {
+        
+        if($hari == "n"){
+
+            $hariawal= "-30";
+            $hariakhir= "0";
+
+        }elseif($hari == "p"){
+
+            $hariawal= "-60";
+            $hariakhir= "-30";
+
+        }elseif($hari == "wp"){
+
+            $hariawal= "-7";
+            $hariakhir= "0";
+
+        }elseif(empty($hari)){
+            $hariawal = "-90";
+            $hariakhir = "0";
+        }else{
+            $hariawal=$hari;
+            $hariakhir='0';
+        }
+
         $this->load->model('data_wifi');
         $querywifi["wifi"] = $this->data_wifi->datawifi();
-        $querywifi["ranking"] = $this->data_wifi->ranking_wifi();
+        $querywifi["ranking"] = $this->data_wifi->ranking_wifi($hariawal,$hariakhir);
+
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }
@@ -86,6 +111,7 @@ class home extends CI_Controller
         $this->load->view('_partials/footer');
         $this->load->view('_partials/js', $querywifi);
     }
+
 
     public function detaildata_wifi($no = "")
     {

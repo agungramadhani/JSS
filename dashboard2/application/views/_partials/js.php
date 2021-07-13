@@ -45,6 +45,17 @@
 <script src="<?= base_url() ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script>
+     $(document).ready(function(){ //Make script DOM ready
+        $('#filterrank').change(function() { //jQuery Change Function
+            var opval = $(this).val(); //Get value from select element
+            if(opval=="custom"){ //Compare it and if true
+                $('#customfilter').modal("toggle"); //Open Modal
+            }
+        });
+        $("#closemodal").click(function() {
+                $('#customfilter').modal("toggle");
+            });
+    });
     $(function() {
         $("#example1").DataTable({
             "responsive": true,

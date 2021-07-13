@@ -19,8 +19,23 @@
                         <div class="card-header">
                             <h3 class="card-title">Ranking WiFi</h3>
                             <div class="card-tools">
+                                <select id="filterrank" onchange="javascript:handleSelect(this)" class="btn btn-sm btn-info" aria-label="Default select example">
+                                    <option selected disabled hidden>Filter</option>
+                                    <option value="n">Bulan Ini</option>
+                                    <option value="p">Bulan Lalu</option>
+                                    <option value="wp">Minggu ini</option>
+                                    <option value="custom">Custom</option>
+                                </select>
                             </div>
                         </div>
+                        <script type="text/javascript">
+                            function handleSelect(elm)
+                            {
+                                if(elm.value !== 'custom'){
+                                    window.location = "<?= base_url('home/data_wifi/')?>"+elm.value;
+                                }
+                            }
+                        </script>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="table table-bordered table-striped">
@@ -39,11 +54,11 @@
                                     foreach ($ranking as $rw) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $no++ ?></td>
-                                            <td><?php echo $rw->nama_lokasi ?></td>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $rw->nama_lokasi ?></td>
                                             <td><?= formatBytes($rw->upload, 2) ?></td>
                                             <td><?= formatBytes($rw->download, 2) ?></td>
-                                            <td><?php echo $rw->ip ?> </td>
+                                            <td><?= $rw->ip ?> </td>
 
 
                                         <?php } ?>
@@ -150,6 +165,37 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./_partials/wrapper -->
+    <div class="modal fade" id="customfilter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+    			<div class="modal-header">
+    				<h5 class="modal-title" id="exampleModalLabel">Custom Hari</h5>
+    				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    			</div>
+    			<div class="modal-body">
+    				<form action="">
+                    <div class="mb-3">
+                    	<input type="number" class="form-control" id="hari" onChange="getInputValue(this)" placeholder="Masukkan Jumlah (Hari)" aria-describedby="emailHelp">
+                    	<small style="color:grey;margin-left:10px" id="emailHelp" class="form-text">Masukkan Jumlah Hari Kebelakang</small>
+                    </div>
+                    </form>
+    			</div>
+    			<div class="modal-footer">
+    				<button type="button" id="closemodal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    				<button type="button" onClick="getInputValue()" id="save" class="btn btn-primary">Save changes</button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <script>
+        function getInputValue(){
+            var val = document.getElementById('hari').value 
+                window.location = "<?= base_url('home/data_wifi/')?>-"+val;
+            
+        }
+    
+    </script>
+
 
 </body>
 

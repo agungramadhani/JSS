@@ -35,13 +35,13 @@ class data_wifi extends CI_Model
         $this->db->update($table, $data);
     }
 
-    public function ranking_wifi()
+    public function ranking_wifi($hariawal,$hariakhir)
     {
         $ranking = $this->db->query('SELECT count(radacct.radacctid), DAYNAME(DATE(radacct.acctupdatetime)) as hari, 
         sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
         data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
         FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
-        where radacct.acctupdatetime >= NOW() + INTERVAL -90 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
+        where radacct.acctupdatetime >= NOW() + INTERVAL '.$hariawal.' DAY AND radacct.acctupdatetime < NOW() + INTERVAL '.$hariakhir.' DAY 
         GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) order by upload desc, download limit 10')->result();
 
         return $ranking;
