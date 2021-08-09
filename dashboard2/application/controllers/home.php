@@ -119,6 +119,7 @@ class home extends CI_Controller
         $querywifi["wifi"] = $this->data_wifi->datawifi();
         $detail = $this->data_wifi->detail($no);
         $querywifi["no_wifi"] = $detail;
+        $querywifi["wifi"] = $this->data_wifi->datawifi();
         if ($this->session->userdata('masuk') == null) {
             redirect('Auth');
         }

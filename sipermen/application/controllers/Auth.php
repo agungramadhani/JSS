@@ -175,6 +175,7 @@ class Auth extends CI_Controller
                 $q = $this->db->insert("user", $data);
                     if($q){
                         echo "<script>alert('data sudah terkirimkan, data masih di proses dibagian admin');</script>";
+                        // redirect('home');
                      }
     }else{
         $error = array('error' => $this->upload->display_errors());
@@ -183,7 +184,7 @@ class Auth extends CI_Controller
         // echo "<script>alert('gagal');</script>";
     }
 
-            $this->db->insert('user', $data);
+            // $this->db->insert('user', $data);
             $this->db->insert('user_token', $user_token);
             $this->send_mail($randomString, 'verify', $email);
 
@@ -200,12 +201,12 @@ class Auth extends CI_Controller
         $this->load->library('email');
         $config = array();
         $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.googlemail.com';
-        $config['smtp_user'] = 'info.sipermen@gmail.com';
-        $config['smtp_pass'] = 'Zxcasdqwe123';
-        $config['smtp_port'] = 465;
-        $config['mailtype'] = 'html';
-        $config['charset'] = 'utf-8';
+    $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+    $config['smtp_user'] = 'mamapintar878@gmail.com';
+    $config['smtp_pass'] = 'Ovv070499';
+    $config['smtp_port'] = 465;
+    $config['mailtype'] = 'html';
+    $config['charset'] = 'utf-8';
 
         $this->email->initialize($config); 
         $this->email->set_newline("\r\n"); 
@@ -215,7 +216,7 @@ class Auth extends CI_Controller
         $subject = "This The Te";
         $data = array();
         $message = $this->load->view('register', $data, true);
-        $this->email->from($from. 'Jogja Medianet');
+        $this->email->from($from);
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
@@ -234,7 +235,8 @@ class Auth extends CI_Controller
                         echo "email_sent";
                     } else {
                         echo "email_not_sent";
-                        echo $this->email->print_debugger();  // If any error come, its run
+                        echo $this->email->print_debugger(); 
+                        die(); // If any error come, its run
                     }
         
         

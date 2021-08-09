@@ -246,6 +246,23 @@ class Home extends CI_Controller {
         $this->load->view('admin/menara/v_prosurvey',$data);
         $this->load->view('admin/addons/footer');
     }
+    public function prosesrekom()
+    {
+        if($this->session->userdata('login') == null){
+            redirect('home');
+        }
+        $data['pengajuanlist'] = $this->db->query('SELECT tb_tempat_menara.id_form,tb_tempat_menara.alamat,tb_tempat_menara.kelurahan,tb_tempat_menara.site_id,
+        tb_tempat_menara.kecamatan,tb_tempat_menara.lat,tb_tempat_menara.lng,tb_tempat_menara.tipe_menara,tb_tempat_menara.tinggi,
+        tb_form_menara.id_user, user.nama_depan,user.nama_belakang, user.nama_perusahaan
+        FROM tb_tempat_menara
+        JOIN tb_form_menara ON tb_tempat_menara.id_form = tb_tempat_menara.id_form
+        JOIN user ON tb_form_menara.id_user = user.id_user
+        Where tb_tempat_menara.status_tempat="proses_rekom" group by id_form')->result();
+        $this->load->view('admin/addons/header');
+        $this->load->view('admin/addons/navbar');
+        $this->load->view('admin/menara/v_prorekom',$data);
+        $this->load->view('admin/addons/footer');
+    }
     public function aksiverif($page = "")
     {
 

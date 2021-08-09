@@ -113,7 +113,7 @@
 							<li class="<?php if (strpos($_SERVER['REQUEST_URI'], "aksiverif") !== false ){ echo 'active';}else { echo ''; } ?>"><a href="<?= base_url(); ?>home/verifberkas">Verifikasi Berkas</a></li>
 							<li class=""><a href="<?= base_url() ?>home/pengajuanberkas">Pengajuan Tempat</a></li>
 							<li class=""><a href="<?= base_url() ?>home/prosessurvey">Proses Survey</a></li>
-							<li class=""><a href="">Proses Rekom</a></li>
+							<li class=""><a href="<?= base_url() ?>home/prosesrekom">Proses Rekom</a></li>
 							<li class=""><a href="">Cetak Rekom</a></li>
 						</ul>
 						</li>

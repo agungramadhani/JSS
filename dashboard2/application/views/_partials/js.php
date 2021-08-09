@@ -266,7 +266,7 @@ if (!isset($_GET['satuan'])) {
                     sum(radacct.acctinputoctets)/1073741824 as upload, sum(radacct.acctoutputoctets)/1073741824 as download ,
                     data_wifi.nama_lokasi, data_wifi.kemantren, data_wifi.kelurahan, data_wifi.rt, data_wifi.rw, data_wifi.ip 
                     FROM `radacct` join data_wifi on radacct.nasipaddress = data_wifi.ip 
-                    where radacct.acctupdatetime >= NOW() + INTERVAL -100 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
+                    where radacct.acctupdatetime >= NOW() + INTERVAL -7 DAY AND radacct.acctupdatetime < NOW() + INTERVAL 0 DAY 
                     and radacct.nasipaddress = "' . $no_wifi->ip . '"
                     GROUP BY data_wifi.ip, DAYNAME(DATE(radacct.acctupdatetime)) ')->result_array();
 
